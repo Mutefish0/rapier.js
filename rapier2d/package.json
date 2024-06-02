@@ -5,7 +5,7 @@
     "exports": "./pkg",
     "types": "./pkg/rapier.d.ts",
     "scripts": {
-        "build": "npm run clean && npm run build:wasm && npm run build:ts && npm run build:doc",
+        "build": "npm run clean && npm run build:wasm && npm run build:ts",
         "build:doc": "typedoc --tsconfig tsconfig_typedoc.json",
         "build:wasm": "./build_rust.sh",
         "build:ts": "./build_typescript.sh",
@@ -15,6 +15,7 @@
         "rimraf": "^3.0.2"
     },
     "dependencies": {
+        "typescript": "^5.4.5",
         "wasm-pack": "^0.12.1"
     }
 }

@@ -510,7 +510,7 @@ export enum ShapeType {
     Triangle = 5,
     TriMesh = 6,
     HeightField = 7,
-    // Compound = 8,
+    Compound = 8,
     ConvexPolygon = 9,
     RoundCuboid = 10,
     RoundTriangle = 11,
@@ -534,7 +534,7 @@ export enum ShapeType {
     Triangle = 5,
     TriMesh = 6,
     HeightField = 7,
-    // Compound = 8,
+    Compound = 8,
     ConvexPolyhedron = 9,
     Cylinder = 10,
     Cone = 11,
@@ -1008,6 +1008,65 @@ export class Polyline extends Shape {
 
     public intoRaw(): RawShape {
         return RawShape.polyline(this.vertices, this.indices);
+    }
+}
+
+export class ConvexDecomposition extends Shape {
+    readonly type = ShapeType.ConvexPolygon;
+
+    /**
+     * The vertices of the polyline.
+     */
+    vertices: Float32Array;
+
+    /**
+     * The indices of the segments.
+     */
+    indices: Uint32Array;
+
+    /**
+     * Creates a new polyline shape.
+     *
+     * @param vertices - The coordinates of the polyline's vertices.
+     * @param indices - The indices of the polyline's segments. If this is `null` or not provided, then
+     *    the vertices are assumed to form a line strip.
+     */
+    constructor(vertices: Float32Array, indices?: Uint32Array) {
+        super();
+        this.vertices = vertices;
+        this.indices = indices ?? new Uint32Array(0);
+    }
+
+    public intoRaw(): RawShape {
+        return RawShape.convexDecomposition(this.vertices, this.indices);
+    }
+}
+
+
+export class Compound extends Shape {
+    readonly type = ShapeType.Compound;
+
+    /**
+     * The vertices of the polyline.
+     */
+    positions: Float32Array;
+
+    shapes: Array<Shape>;
+    /**
+     * Creates a new polyline shape.
+     *
+     * @param vertices - The coordinates of the polyline's vertices.
+     * @param indices - The indices of the polyline's segments. If this is `null` or not provided, then
+     *    the vertices are assumed to form a line strip.
+     */
+    constructor(shapes: Array<Shape>, positions: Float32Array) {
+        super();
+        this.positions = positions;
+        this.shapes = shapes;
+    }   
+
+    public intoRaw(): RawShape {
+        return RawShape.compound(this.shapes.map((s) => s.intoRaw()), this.positions);
     }
 }
 
