@@ -26,6 +26,8 @@ import {
     // #if DIM2
     ConvexPolygon,
     RoundConvexPolygon,
+    ConvexDecomposition,
+    Compound,
     // #endif
     // #if DIM3
     Cylinder,
@@ -1243,6 +1245,26 @@ export class ColliderDesc {
         const shape = new TriMesh(vertices, indices, flags);
         return new ColliderDesc(shape);
     }
+
+    public static convexDecomposition(
+        vertices: Float32Array,
+        indices: Uint32Array,
+    ): ColliderDesc {
+        const shape = new ConvexDecomposition(vertices, indices);
+        return new ColliderDesc(shape);
+    }
+
+    public static compound(
+        shapes: Array<Shape>, 
+        positions: [number, number][],
+    ):ColliderDesc {
+        const shape = new Compound(shapes, new Float32Array(
+            // @ts-ignore
+            positions.flat()
+        ));
+        return new ColliderDesc(shape);
+    }
+
 
     // #if DIM2
     /**
