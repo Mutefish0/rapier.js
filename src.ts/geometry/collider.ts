@@ -1258,10 +1258,26 @@ export class ColliderDesc {
         shapes: Array<Shape>, 
         positions: [number, number][],
     ):ColliderDesc {
-        const shape = new Compound(shapes, new Float32Array(
+        const shapeTypes = shapes.map((shape) => shape.type);
+        const sizes = shapes.map((shape) => {
+            if (shape instanceof Ball) {
+                return [shape.radius];
+            } else if (shape instanceof Capsule) {
+                return [shape.radius, shape.halfHeight];
+            } else if (shape instanceof Cuboid) {
+                return [shape.halfExtents.x, shape.halfExtents.y];
+            } else {
+                throw new Error("Unsupported compound shape type");
+            }
+        });
+        const shape = new Compound(
+            new Uint8Array(shapeTypes),
             // @ts-ignore
-            positions.flat()
-        ));
+            new Float32Array(sizes.flat()), 
+            // @ts-ignore
+            new Float32Array(positions.flat())
+        );
+    
         return new ColliderDesc(shape);
     }
 
