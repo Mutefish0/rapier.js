@@ -1046,12 +1046,10 @@ export class ConvexDecomposition extends Shape {
 export class Compound extends Shape {
     readonly type = ShapeType.Compound;
 
-    /**
-     * The vertices of the polyline.
-     */
+    
     positions: Float32Array;
-
-    shapes: Array<Shape>;
+    sizes: Float32Array;
+    shapeTypes: Uint8Array;
     /**
      * Creates a new polyline shape.
      *
@@ -1059,14 +1057,16 @@ export class Compound extends Shape {
      * @param indices - The indices of the polyline's segments. If this is `null` or not provided, then
      *    the vertices are assumed to form a line strip.
      */
-    constructor(shapes: Array<Shape>, positions: Float32Array) {
+    constructor(shapeTypes: Uint8Array, sizes: Float32Array, positions: Float32Array) {
         super();
         this.positions = positions;
-        this.shapes = shapes;
+        this.sizes = sizes;
+        this.shapeTypes = shapeTypes;
     }   
 
     public intoRaw(): RawShape {
-        return RawShape.compound(this.shapes.map((s) => s.intoRaw()), this.positions);
+        // @ts-ignore
+        return RawShape.compound(this.shapeTypes, this.sizes, this.positions);
     }
 }
 

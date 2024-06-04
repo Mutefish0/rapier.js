@@ -359,13 +359,28 @@ impl RawShape {
 
 
     #[cfg(feature = "dim2")]
-    pub fn compound(shapes: Vec<RawShape>, offsets: Vec<f32>) -> Self {
+    pub fn compound(shape_types: Vec<RawShapeType>, sizes: Vec<f32>, offsets: Vec<f32>) -> Self {
         let offsets: Vec<Isometry<Real>> = offsets.chunks(2).map(|v| Isometry::translation(v[0],v[1])).collect();
-        let tups: Vec<(Isometry<Real>, SharedShape)> = offsets.into_iter().zip(shapes.iter()
-        .map(|raw_shape| {
-            let RawShape(shared_shape) = raw_shape;
-            shared_shape.clone() // 这里假设 SharedShape 实现了 Clone trait
-        })).collect();
+        let sizes: Vec<[f32;2]> = sizes.chunks(2).map(|v| [v[0], v[1]]).collect();
+        
+        // iterate over the shapes and and sizes and create a vector of SharedShape 
+         let shapes: Vec<SharedShape> =  shape_types.into_iter()
+        .zip(sizes.into_iter())
+        .map(|(shape_type, size)| {
+            match shape_type {
+                RawShapeType::Ball => SharedShape::ball(size[0]),
+                RawShapeType::Cuboid => SharedShape::cuboid(size[0], size[1]),
+                RawShapeType::Capsule => {
+                    let p2 = Point::from(Vector::y() * size[1]);
+                    let p1 = -p2;
+                    SharedShape::capsule(p1, p2, size[0])
+                },
+                _ => SharedShape::cuboid(size[0], size[1]),
+            }
+        }).collect();
+
+        let tups = offsets.into_iter().zip(shapes.into_iter()).collect();
+        
         Self(SharedShape::compound(tups))
     }
 
