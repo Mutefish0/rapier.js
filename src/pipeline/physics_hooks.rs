@@ -7,7 +7,7 @@ pub struct RawPhysicsHooks {
     pub this: js_sys::Object,
     pub filter_contact_pair: js_sys::Function,
     pub filter_intersection_pair: js_sys::Function,
-    // pub modify_solver_contacts: &'a js_sys::Function,
+    pub modify_solver_contacts: js_sys::Function,
 }
 
 #[wasm_bindgen]
@@ -66,7 +66,32 @@ impl PhysicsHooks for RawPhysicsHooks {
             .unwrap_or(false)
     }
 
-    fn modify_solver_contacts(&self, _ctxt: &mut ContactModificationContext) {}
+    #[cfg(feature = "dim2")]
+    fn modify_solver_contacts(&self, ctxt: &mut ContactModificationContext) -> bool {
+          let rb1 = ctxt
+            .rigid_body1
+            .map(|rb| JsValue::from(utils::flat_handle(rb.0)))
+            .unwrap_or(JsValue::NULL);
+        let rb2 = ctxt
+            .rigid_body2
+            .map(|rb| JsValue::from(utils::flat_handle(rb.0)))
+            .unwrap_or(JsValue::NULL);
+
+         self.filter_intersection_pair
+            .bind2(
+                &self.this,
+                &JsValue::from(utils::flat_handle(ctxt.collider1.0)),
+                &JsValue::from(utils::flat_handle(ctxt.collider2.0)),
+            )
+            .call2(&self.this, &rb1, &rb2)
+            .ok()
+            .and_then(|res| res.as_bool())
+            .unwrap_or(false);
+
+
+        false
+        
+    }
 }
 
 /* NOTE: the following is an attempt to make contact modification work.
