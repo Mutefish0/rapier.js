@@ -64,6 +64,7 @@ export class PhysicsPipeline {
                 hooks,
                 !!hooks ? hooks.filterContactPair : null,
                 !!hooks ? hooks.filterIntersectionPair : null,
+                !!hooks ? hooks.modifySolverContacts : null,
             );
         } else {
             this.raw.step(
