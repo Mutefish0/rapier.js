@@ -82,6 +82,10 @@ impl PhysicsHooks for RawPhysicsHooks {
 
     #[cfg(feature = "dim2")]
     fn modify_solver_contacts(&self, ctxt: &mut ContactModificationContext) {
+        if self.modify_solver_contacts.is_null() {
+            return;
+        } 
+
         let nx = &ctxt.normal.x;
         let ny  = &ctxt.normal.y;
         let n = &combine_f32_to_f64(*nx, *ny);
