@@ -1,6 +1,21 @@
 ### Unreleased
 
--   Update from rapier 0.19 to 0.21 ([#281](https://github.com/dimforge/rapier.js/pull/281)), see [rapier's changelog](https://github.com/dimforge/rapier/blob/master/CHANGELOG.md#v0210-23-june-2024) for more context.
+### Modified
+
+-   Package tree shaking has been disabled to avoid a crash on certain build configuration (#289).
+
+### 0.14.0 (20 July 2024)
+
+#### Modified
+
+-   Update from the rust library of rapier 0.19 to 0.22,
+    see [rapier's changelog](https://github.com/dimforge/rapier/blob/master/CHANGELOG.md#v0210-23-june-2024) for more
+    context.
+
+#### Added
+
+-   Added `RigidBody.userForce` function to retrieve the constant force(s) the user added to a rigid-body
+-   Added `RigidBody.userTorque` function to retrieve the constant torque(s) the user added to a rigid-body
 
 ### 0.13.1 (2024-05-08)
 
