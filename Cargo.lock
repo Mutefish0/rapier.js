@@ -166,15 +166,9 @@ checksum = "64fa3c856b712db6612c019f14756e64e4bcea13337a6b33b696333a9eaa2d06"
 
 [[package]]
 name = "bytemuck"
-version = "1.23.0"
+version = "1.23.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "9134a6ef01ce4b366b50689c94f82c14bc72bc5d0386829828a2e2752ef7958c"
-
-[[package]]
-name = "byteorder"
-version = "1.5.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "1fd0f2584146f6f2ef48085050886acf353beff7305ebd1ae69500e27c67f64b"
+checksum = "5c76a5792e44e4abe34d3abf15636779261d45a7450612059293d1d2cfc63422"
 
 [[package]]
 name = "cc"
@@ -368,34 +362,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "dimforge_rapier2d"
-version = "0.18.0-beta.0"
-dependencies = [
- "bincode",
- "js-sys",
- "nalgebra",
- "palette",
- "rapier2d",
- "ref-cast",
- "serde",
- "wasm-bindgen",
-]
-
-[[package]]
-name = "dimforge_rapier2d-deterministic"
-version = "0.18.0-beta.0"
-dependencies = [
- "bincode",
- "js-sys",
- "nalgebra",
- "palette",
- "rapier2d",
- "ref-cast",
- "serde",
- "wasm-bindgen",
-]
-
-[[package]]
 name = "dimforge_rapier2d-simd"
 version = "0.18.0-beta.0"
 dependencies = [
@@ -404,48 +370,6 @@ dependencies = [
  "nalgebra",
  "palette",
  "rapier2d",
- "ref-cast",
- "serde",
- "wasm-bindgen",
-]
-
-[[package]]
-name = "dimforge_rapier3d"
-version = "0.18.0-beta.0"
-dependencies = [
- "bincode",
- "js-sys",
- "nalgebra",
- "palette",
- "rapier3d",
- "ref-cast",
- "serde",
- "wasm-bindgen",
-]
-
-[[package]]
-name = "dimforge_rapier3d-deterministic"
-version = "0.18.0-beta.0"
-dependencies = [
- "bincode",
- "js-sys",
- "nalgebra",
- "palette",
- "rapier3d",
- "ref-cast",
- "serde",
- "wasm-bindgen",
-]
-
-[[package]]
-name = "dimforge_rapier3d-simd"
-version = "0.18.0-beta.0"
-dependencies = [
- "bincode",
- "js-sys",
- "nalgebra",
- "palette",
- "rapier3d",
  "ref-cast",
  "serde",
  "wasm-bindgen",
@@ -485,12 +409,6 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "dd2e7510819d6fbf51a5545c8f922716ecfb14df168a3242f7d33e0239efe6a1"
 
 [[package]]
-name = "fixedbitset"
-version = "0.5.7"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "1d674e81391d1e1ab681a28d99df07927c6d4aa5b027d7da16ba32d1d21ecd99"
-
-[[package]]
 name = "foldhash"
 version = "0.1.5"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -518,12 +436,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "glam"
-version = "0.30.4"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "50a99dbe56b72736564cfa4b85bf9a33079f16ae8b74983ab06af3b1a3696b11"
-
-[[package]]
 name = "globset"
 version = "0.4.16"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -548,34 +460,15 @@ dependencies = [
 ]
 
 [[package]]
-name = "hash32"
-version = "0.3.1"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "47d60b12902ba28e2730cd37e95b8c9223af2808df9e902d4df49588d1470606"
-dependencies = [
- "byteorder",
-]
-
-[[package]]
 name = "hashbrown"
-version = "0.15.3"
+version = "0.15.4"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "84b26c544d002229e640969970a2e74021aadf6e2f96372b9c58eff97de08eb3"
+checksum = "5971ac85611da7067dbfcabef3c70ebb5606018acd9e2a3903a0da507521e0d5"
 dependencies = [
  "allocator-api2",
  "equivalent",
  "foldhash",
  "serde",
-]
-
-[[package]]
-name = "heapless"
-version = "0.8.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "0bfb9eb618601c89945a70e254898da93b13be0388091d42117462b265bb3fad"
-dependencies = [
- "hash32",
- "stable_deref_trait",
 ]
 
 [[package]]
@@ -634,17 +527,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "indexmap"
-version = "2.9.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "cea70ddb795996207ad57735b50c5982d8844f38ba9ee5f1aedcfb708a2aa11e"
-dependencies = [
- "equivalent",
- "hashbrown",
- "serde",
-]
-
-[[package]]
 name = "is_terminal_polyfill"
 version = "1.70.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -692,9 +574,9 @@ checksum = "13dc2df351e3202783a1fe0d44375f7295ffb4049267b0f3018346dc122a1d94"
 
 [[package]]
 name = "matrixmultiply"
-version = "0.3.9"
+version = "0.3.10"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "9380b911e3e96d10c1f415da0876389aaf1b56759054eeb0de7df940c456ba1a"
+checksum = "a06de3016e9fae57a36fd14dba131fccf49f74b40b7fbdb472f96e361ec71a08"
 dependencies = [
  "autocfg",
  "rawpointer",
@@ -847,7 +729,6 @@ dependencies = [
  "either",
  "ena",
  "hashbrown",
- "indexmap",
  "log",
  "nalgebra",
  "num-derive",
@@ -858,36 +739,6 @@ dependencies = [
  "slab",
  "smallvec",
  "spade",
- "thiserror",
-]
-
-[[package]]
-name = "parry3d"
-version = "0.22.0-beta.1"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "f1d866b7e9e63a05780111b13f275e1a398a60f34b6749392b53369fe4eb5520"
-dependencies = [
- "approx",
- "arrayvec",
- "bitflags",
- "downcast-rs",
- "either",
- "ena",
- "glam",
- "hashbrown",
- "indexmap",
- "log",
- "nalgebra",
- "num-derive",
- "num-traits",
- "ordered-float",
- "rstar",
- "serde",
- "simba",
- "slab",
- "smallvec",
- "spade",
- "static_assertions",
  "thiserror",
 ]
 
@@ -955,18 +806,6 @@ dependencies = [
  "once_cell",
  "pest",
  "sha2",
-]
-
-[[package]]
-name = "petgraph"
-version = "0.8.2"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "54acf3a685220b533e437e264e4d932cfbdc4cc7ec0cd232ed73c08d03b8a7ca"
-dependencies = [
- "fixedbitset",
- "hashbrown",
- "indexmap",
- "serde",
 ]
 
 [[package]]
@@ -1050,18 +889,18 @@ dependencies = [
 
 [[package]]
 name = "profiling"
-version = "1.0.16"
+version = "1.0.17"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "afbdc74edc00b6f6a218ca6a5364d6226a259d4b8ea1af4a0ea063f27e179f4d"
+checksum = "3eb8486b569e12e2c32ad3e204dbaba5e4b5b216e9367044f25f1dba42341773"
 dependencies = [
  "profiling-procmacros",
 ]
 
 [[package]]
 name = "profiling-procmacros"
-version = "1.0.16"
+version = "1.0.17"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "a65f2e60fbf1063868558d69c6beacf412dc755f9fc020f514b7955fc914fe30"
+checksum = "52717f9a02b6965224f95ca2a81e2e0c5c43baacd28ca057577988930b6c3d5b"
 dependencies = [
  "quote",
  "syn",
@@ -1133,35 +972,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "rapier3d"
-version = "0.27.0-beta.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "1ab3ba62d1788a880b297e5c56612c68cfa18db3ad0413e80704729820378577"
-dependencies = [
- "approx",
- "arrayvec",
- "bit-vec",
- "bitflags",
- "crossbeam",
- "downcast-rs",
- "log",
- "nalgebra",
- "num-derive",
- "num-traits",
- "ordered-float",
- "parry3d",
- "petgraph",
- "profiling",
- "rustc-hash",
- "serde",
- "simba",
- "smallvec",
- "thiserror",
- "vec_map",
- "wide",
-]
-
-[[package]]
 name = "rawpointer"
 version = "0.2.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1218,20 +1028,9 @@ checksum = "2b15c43186be67a4fd63bee50d0303afffcef381492ebe2c5d87f324e1b8815c"
 
 [[package]]
 name = "robust"
-version = "1.1.0"
+version = "1.2.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "cbf4a6aa5f6d6888f39e980649f3ad6b666acdce1d78e95b8a2cb076e687ae30"
-
-[[package]]
-name = "rstar"
-version = "0.12.2"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "421400d13ccfd26dfa5858199c30a5d76f9c54e0dba7575273025b43c5175dbb"
-dependencies = [
- "heapless",
- "num-traits",
- "smallvec",
-]
+checksum = "4e27ee8bb91ca0adcf0ecb116293afa12d393f9c2b9b9cd54d33e8078fe19839"
 
 [[package]]
 name = "rustc-hash"
@@ -1325,7 +1124,6 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "b3a386a501cd104797982c15ae17aafe8b9261315b5d07e3ec803f2ea26be0fa"
 dependencies = [
  "approx",
- "libm",
  "num-complex",
  "num-traits",
  "paste",
@@ -1340,12 +1138,9 @@ checksum = "56199f7ddabf13fe5074ce809e7d3f42b42ae711800501b5b16ea82ad029c39d"
 
 [[package]]
 name = "slab"
-version = "0.4.9"
+version = "0.4.10"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "8f92a496fb766b417c996b9c5e57daf2f7ad3b0bebe1ccfca4856390e3d3bb67"
-dependencies = [
- "autocfg",
-]
+checksum = "04dc19736151f35336d325007ac991178d504a119863a2fcb3758cdb5e52c50d"
 
 [[package]]
 name = "slug"
@@ -1359,15 +1154,15 @@ dependencies = [
 
 [[package]]
 name = "smallvec"
-version = "1.15.0"
+version = "1.15.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "8917285742e9f3e1683f0a9c4e6b57960b7314d0b08d30d1ecd426713ee2eee9"
+checksum = "67b1b7a3b5fe4f1376887184045fcf45c69e92af734b7aaddc05fb777b6fbd03"
 
 [[package]]
 name = "spade"
-version = "2.13.1"
+version = "2.14.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "1ece03ff43cd2a9b57ebf776ea5e78bd30b3b4185a619f041079f4109f385034"
+checksum = "a14e31a007e9f85c32784b04f89e6e194bb252a4d41b4a8ccd9e77245d901c8c"
 dependencies = [
  "hashbrown",
  "num-traits",
@@ -1375,18 +1170,6 @@ dependencies = [
  "serde",
  "smallvec",
 ]
-
-[[package]]
-name = "stable_deref_trait"
-version = "1.2.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "a8f112729512f8e442d81f95a8a7ddf2b7c6b8a1a6f509a95864142b30cab2d3"
-
-[[package]]
-name = "static_assertions"
-version = "1.1.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "a2eb9349b6444b326872e140eb1cf5e7c522154d69e7a0ffb0fb81c06b37543f"
 
 [[package]]
 name = "strsim"
@@ -1609,9 +1392,9 @@ dependencies = [
 
 [[package]]
 name = "wide"
-version = "0.7.32"
+version = "0.7.33"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "41b5576b9a81633f3e8df296ce0063042a73507636cbe956c61133dd7034ab22"
+checksum = "0ce5da8ecb62bcd8ec8b7ea19f69a51275e91299be594ea5cc6ef7819e16cd03"
 dependencies = [
  "bytemuck",
  "safe_arch",

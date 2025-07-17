@@ -319,6 +319,7 @@ impl RawShape {
             .map(Self)
     }
 
+
     #[cfg(feature = "dim2")]
     pub fn heightfield(heights: Vec<f32>, scale: &RawVector) -> Self {
         let heights = DVector::from_vec(heights);
@@ -366,6 +367,40 @@ impl RawShape {
         SharedShape::convex_hull(&points).map(|s| Self(s))
     }
 
+    #[cfg(feature = "dim2")]
+    pub fn convexDecomposition(vertices: Vec<f32>, indices: Vec<u32>) -> Self {
+        let vertices: Vec<_> = vertices.chunks(DIM).map(|v| Point::from_slice(v)).collect();
+        let indices: Vec<_> = indices.chunks(DIM).map(|v| [v[0], v[1]]).collect();
+        Self(SharedShape::convex_decomposition(&vertices, &indices))
+    }
+
+
+    #[cfg(feature = "dim2")]
+    pub fn compound(shape_types: Vec<RawShapeType>, sizes: Vec<f32>, offsets: Vec<f32>) -> Self {
+        let offsets: Vec<Isometry<Real>> = offsets.chunks(2).map(|v| Isometry::translation(v[0],v[1])).collect();
+        let sizes: Vec<[f32;2]> = sizes.chunks(2).map(|v| [v[0], v[1]]).collect();
+        
+        // iterate over the shapes and and sizes and create a vector of SharedShape 
+         let shapes: Vec<SharedShape> =  shape_types.into_iter()
+        .zip(sizes.into_iter())
+        .map(|(shape_type, size)| {
+            match shape_type {
+                RawShapeType::Ball => SharedShape::ball(size[0]),
+                RawShapeType::Cuboid => SharedShape::cuboid(size[0], size[1]),
+                RawShapeType::Capsule => {
+                    let p2 = Point::from(Vector::y() * size[1]);
+                    let p1 = -p2;
+                    SharedShape::capsule(p1, p2, size[0])
+                },
+                _ => SharedShape::cuboid(size[0], size[1]),
+            }
+        }).collect();
+
+        let tups = offsets.into_iter().zip(shapes.into_iter()).collect();
+        
+        Self(SharedShape::compound(tups))
+    }
+
     pub fn roundConvexHull(points: Vec<f32>, borderRadius: f32) -> Option<RawShape> {
         let points: Vec<_> = points.chunks(DIM).map(|v| Point::from_slice(v)).collect();
         SharedShape::round_convex_hull(&points, borderRadius).map(|s| Self(s))
@@ -376,7 +411,8 @@ impl RawShape {
         let vertices = vertices.chunks(DIM).map(|v| Point::from_slice(v)).collect();
         SharedShape::convex_polyline(vertices).map(|s| Self(s))
     }
-
+    
+    
     #[cfg(feature = "dim2")]
     pub fn roundConvexPolyline(vertices: Vec<f32>, borderRadius: f32) -> Option<RawShape> {
         let vertices = vertices.chunks(DIM).map(|v| Point::from_slice(v)).collect();

@@ -27,6 +27,8 @@ import {
     // #if DIM2
     ConvexPolygon,
     RoundConvexPolygon,
+    ConvexDecomposition,
+    Compound,
     // #endif
     // #if DIM3
     Cylinder,
@@ -1414,6 +1416,42 @@ export class ColliderDesc {
         const shape = new TriMesh(vertices, indices, flags);
         return new ColliderDesc(shape);
     }
+
+    public static convexDecomposition(
+        vertices: Float32Array,
+        indices: Uint32Array,
+    ): ColliderDesc {
+        const shape = new ConvexDecomposition(vertices, indices);
+        return new ColliderDesc(shape);
+    }
+
+    public static compound(
+        shapes: Array<Shape>, 
+        positions: [number, number][],
+    ):ColliderDesc {
+        const shapeTypes = shapes.map((shape) => shape.type);
+        const sizes = shapes.map((shape) => {
+            if (shape instanceof Ball) {
+                return [shape.radius];
+            } else if (shape instanceof Capsule) {
+                return [shape.radius, shape.halfHeight];
+            } else if (shape instanceof Cuboid) {
+                return [shape.halfExtents.x, shape.halfExtents.y];
+            } else {
+                throw new Error("Unsupported compound shape type");
+            }
+        });
+        const shape = new Compound(
+            new Uint8Array(shapeTypes),
+            // @ts-ignore
+            new Float32Array(sizes.flat()), 
+            // @ts-ignore
+            new Float32Array(positions.flat())
+        );
+    
+        return new ColliderDesc(shape);
+    }
+
 
     // #if DIM2
     /**

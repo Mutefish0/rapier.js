@@ -1,13 +1,14 @@
 use crate::utils;
 use rapier::geometry::SolverFlags;
 use rapier::pipeline::{ContactModificationContext, PairFilterContext, PhysicsHooks};
+use rapier2d::prelude::Point;
 use wasm_bindgen::prelude::*;
 
 pub struct RawPhysicsHooks {
     pub this: js_sys::Object,
     pub filter_contact_pair: js_sys::Function,
     pub filter_intersection_pair: js_sys::Function,
-    // pub modify_solver_contacts: &'a js_sys::Function,
+    pub modify_solver_contacts: js_sys::Function,
 }
 
 // HACK: the RawPhysicsHooks is no longer Send+Sync because the JS objects are
@@ -23,6 +24,18 @@ extern "C" {
     // `log(..)`
     #[wasm_bindgen(js_namespace = console)]
     fn log(s: &str);
+}
+
+fn combine_f32_to_f64(a: f32, b: f32) -> f64 {
+    // 将 f32 转换为 u32
+    let a_bits = a.to_bits() as u64;
+    let b_bits = b.to_bits() as u64;
+
+    // 将两个 u32 合并为一个 u64
+    let combined_bits = (a_bits << 32) | b_bits;
+
+    // 将 u64 转换为 f64
+    f64::from_bits(combined_bits)
 }
 
 impl PhysicsHooks for RawPhysicsHooks {
@@ -73,7 +86,54 @@ impl PhysicsHooks for RawPhysicsHooks {
             .unwrap_or(false)
     }
 
-    fn modify_solver_contacts(&self, _ctxt: &mut ContactModificationContext) {}
+    #[cfg(feature = "dim2")]
+    fn modify_solver_contacts(&self, ctxt: &mut ContactModificationContext) {
+        if self.modify_solver_contacts.is_null() {
+            return;
+        }
+
+        let nx = &ctxt.normal.x;
+        let ny = &ctxt.normal.y;
+        let n = &combine_f32_to_f64(*nx, *ny);
+
+        let default_point = Point::new(0.0, 0.0);
+        let point1 = ctxt
+            .solver_contacts
+            .get(0)
+            .map_or(default_point, |contact| contact.point);
+        let p1x = &point1.x;
+        let p1y = &point1.y;
+        let p1 = &combine_f32_to_f64(*p1x, *p1y);
+
+        let point2 = ctxt
+            .solver_contacts
+            .get(1)
+            .map_or(default_point, |contact| contact.point);
+        let p2x = &point2.x;
+        let p2y = &point2.y;
+        let p2 = &combine_f32_to_f64(*p2x, *p2y);
+
+        let ret = self
+            .modify_solver_contacts
+            .bind2(
+                &self.this,
+                &JsValue::from(utils::flat_handle(ctxt.collider1.0)),
+                &JsValue::from(utils::flat_handle(ctxt.collider2.0)),
+            )
+            .call3(
+                &self.this,
+                &JsValue::from_f64(*n),
+                &JsValue::from(*p1),
+                &JsValue::from(*p2),
+            )
+            .ok()
+            .and_then(|res| res.as_bool())
+            .unwrap_or(true);
+
+        if !ret {
+            ctxt.solver_contacts.clear();
+        }
+    }
 }
 
 /* NOTE: the following is an attempt to make contact modification work.
